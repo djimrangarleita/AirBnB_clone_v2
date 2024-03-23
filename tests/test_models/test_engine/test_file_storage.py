@@ -38,6 +38,8 @@ class TestFileStorage(unittest.TestCase):
         storage.new(BaseModel())
         self.assertNotEqual(storage._FileStorage__objects, {})
         self.assertEqual(len(storage._FileStorage__objects), 1)
+        storage.__objects = {}
+        self.assertNotEqual(storage._FileStorage__objects, storage.__objects)
 
     def test_all_will_return_a_dict_with_all_objects(self):
         """Test the all() method of the file storage will return all obj"""
