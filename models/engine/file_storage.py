@@ -22,7 +22,7 @@ class FileStorage:
 
     def save(self):
         """Serialize an object to json and store it to a file"""
-        json_str = json.dumps(self.serialize_objects())
+        json_str = json.dumps(self.__serialize_objects())
         with open(self.__file_path, 'w', encoding='utf-8') as f:
             f.write(json_str)
 
@@ -44,7 +44,7 @@ class FileStorage:
         except FileNotFoundError:
             return {}
 
-    def serialize_objects(self):
+    def __serialize_objects(self):
         """Serialize all objects to dictionary"""
         dict_of_objects = {}
         for key, obj in self.__objects.items():
