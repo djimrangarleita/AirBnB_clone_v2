@@ -7,7 +7,7 @@ classes = ['BaseModel']
 def class_name_not_null(class_name):
     """Check that the class name is not empty string"""
     if not class_name:
-        print("** class name missing")
+        print("** class name missing **")
         return False
     return True
 
