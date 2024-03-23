@@ -31,10 +31,13 @@ class TestFileStorage(unittest.TestCase):
         """Test that the __file_path property is file.json"""
         self.assertEqual(storage._FileStorage__file_path, 'file.json')
 
-    def test_objects_dictionary_is_not_accessible(self):
+    def test_objects_dictionary(self):
         """Test that the __objects dict is empty"""
         self.assertIsInstance(storage._FileStorage__objects, dict)
         self.assertEqual(storage._FileStorage__objects, {})
+        storage.new(BaseModel())
+        self.assertNotEqual(storage._FileStorage__objects, {})
+        self.assertEqual(len(storage._FileStorage__objects), 1)
 
     def test_all_will_return_a_dict_with_all_objects(self):
         """Test the all() method of the file storage will return all obj"""

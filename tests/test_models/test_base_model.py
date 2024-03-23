@@ -3,7 +3,7 @@
 import unittest
 import os
 from models.base_model import BaseModel
-from datetime import datetime
+from datetime import datetime, timedelta
 from io import StringIO
 from unittest.mock import patch
 
@@ -43,6 +43,9 @@ class TestBaseModel(unittest.TestCase):
         initial_datetime = b_model.updated_at
         b_model.save()
         self.assertNotEqual(initial_datetime, b_model.updated_at)
+        self.assertNotEqual(b_model.updated_at, b_model.created_at)
+        self.assertAlmostEqual(b_model.updated_at, datetime.now(),
+                               delta=timedelta(seconds=5))
 
     def test_str_method_return_a_string_with_expected_format(self):
         """Test that the __str__() method return the correct string"""
