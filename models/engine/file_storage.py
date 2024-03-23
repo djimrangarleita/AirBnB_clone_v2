@@ -35,6 +35,10 @@ class FileStorage:
             obj = base_model_class(**val)
             self.new(obj)
 
+    def destroy_object(self, key):
+        """Delete an object from the __objects dictionary"""
+        del self.__objects[key]
+
     def __load_from_file(self):
         """Load a file to json"""
         try:
