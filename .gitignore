@@ -1,2 +1,4 @@
+*.swp
+file.json
 playground
 __pycache__
