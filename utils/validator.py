@@ -1,7 +1,7 @@
 """Contains methods for cmd validation"""
 from models import storage
 
-classes = ['BaseModel']
+classes = ['BaseModel', 'User', 'Place', 'State', 'City', 'Amenity', 'Review']
 
 
 def class_name_not_null(class_name):

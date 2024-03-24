@@ -4,6 +4,7 @@ This module is used to persist our objects into a file
 """
 import json
 import importlib
+from utils.general import pascal_to_snake
 
 
 class FileStorage:
@@ -28,11 +29,12 @@ class FileStorage:
 
     def reload(self):
         """Deserializes json file to object"""
-        base_mod = importlib.import_module('models.base_model')
         dict_data = self.__load_from_file()
         for key, val in dict_data.items():
-            base_model_class = getattr(base_mod, val['__class__'])
-            obj = base_model_class(**val)
+            class_name = val['__class__']
+            my_class = self.__import_class(class_name)
+            model_class = getattr(my_class, val['__class__'])
+            obj = model_class(**val)
             self.new(obj)
 
     def destroy_object(self, key):
@@ -54,3 +56,10 @@ class FileStorage:
         for key, obj in self.__objects.items():
             dict_of_objects[key] = obj.to_dict()
         return dict_of_objects
+
+    def __import_class(self, class_name):
+        """Import the proper class according to class name for instantiation"""
+        my_class = ''
+        module_name = pascal_to_snake(class_name)
+        my_class = importlib.import_module('models.{}'.format(module_name))
+        return my_class
