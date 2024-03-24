@@ -3,7 +3,7 @@
 import cmd
 from utils import exec_cmd
 from utils import validator
-from utils.general import normalize_custom_cmd
+from utils.general import normalize_custom_cmd, extract_args
 
 
 class HBNBCommand(cmd.Cmd):
@@ -94,12 +94,12 @@ class HBNBCommand(cmd.Cmd):
         Update an instance based on class name and save changes.
         Usage: update <class_name> <id> <attribute_name> "<attribute_value>"
         """
-        args = line.split()
+        args, values = extract_args(line)
         if not validator.class_name_and_instance_exist(args):
             return
-        if not validator.valid_attribute_name_and_value(args[2:]):
+        if not validator.valid_attribute_name_and_value(values):
             return
-        exec_cmd.update(args)
+        exec_cmd.update(args, values)
 
     def do_count(self, line):
         """

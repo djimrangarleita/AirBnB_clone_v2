@@ -53,10 +53,20 @@ def class_name_and_instance_exist(args):
 
 def valid_attribute_name_and_value(args):
     """Check that attribute name and value exist and are valid"""
+    if isinstance(args, dict):
+        return valid_kwargs(args)
     if len(args) == 0:
         print("** attribute name missing **")
         return False
     if len(args) == 1:
         print("** value missing **")
+        return False
+    return True
+
+
+def valid_kwargs(args):
+    """Validate dictionary"""
+    if len(args) == 0:
+        print("** attribute name missing **")
         return False
     return True

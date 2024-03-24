@@ -44,13 +44,17 @@ def all(class_name):
     print(classes)
 
 
-def update(args):
+def update(args, values):
     """Update attributes of a given instance"""
     key = "{}.{}".format(args[0], args[1])
     objects = storage.all()
     obj = objects[key]
-    setattr(obj, args[2], args[3])
-    storage.save()
+    if isinstance(values, dict):
+        for attr, val in values.items():
+            setattr(obj, attr, val)
+    else:
+        setattr(obj, values[0], values[1])
+    obj.save()
 
 
 def count(class_name):
