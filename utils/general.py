@@ -1,6 +1,8 @@
+#!/usr/bin/python3
 """
 This module contains general purpose util functions
 """
+import re
 
 
 def pascal_to_snake(name):
@@ -15,3 +17,11 @@ def pascal_to_snake(name):
         else:
             result += char
     return result
+
+
+def normalize_custom_cmd(cmd):
+    """Read and parse custom cmds"""
+    tokens = re.split(r'[., "()]', cmd)
+    my_cmd = tokens.pop(1)
+    normalized_cmd = '{} {}'.format(my_cmd, ' '.join(tokens))
+    return normalized_cmd

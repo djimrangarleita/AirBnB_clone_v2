@@ -51,3 +51,13 @@ def update(args):
     obj = objects[key]
     setattr(obj, args[2], args[3])
     storage.save()
+
+
+def count(class_name):
+    """Count number of instances of class_name in storage"""
+    result = 0
+    objects = storage.all()
+    for key, obj in objects.items():
+        if class_name in key:
+            result += 1
+    print(result)

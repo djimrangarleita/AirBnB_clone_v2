@@ -3,6 +3,7 @@
 import cmd
 from utils import exec_cmd
 from utils import validator
+from utils.general import normalize_custom_cmd
 
 
 class HBNBCommand(cmd.Cmd):
@@ -20,6 +21,13 @@ class HBNBCommand(cmd.Cmd):
         if isinstance(line, str):
             return line
         self.emptyline()
+
+    def default(self, line):
+        """Default commands"""
+        if '.' not in line:
+            return cmd.Cmd.default(self, line)
+        line = normalize_custom_cmd(line)
+        cmd.Cmd.onecmd(self, line)
 
     def do_EOF(self, line):
         """
@@ -92,6 +100,15 @@ class HBNBCommand(cmd.Cmd):
         if not validator.valid_attribute_name_and_value(args[2:]):
             return
         exec_cmd.update(args)
+
+    def do_count(self, line):
+        """
+        Count instances of a class in the storage.
+        Usage: <class_name>.count()
+        """
+        if not validator.class_name_exist(line):
+            return
+        exec_cmd.count(line)
 
 
 if __name__ == '__main__':
