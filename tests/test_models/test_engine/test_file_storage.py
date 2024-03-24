@@ -33,6 +33,7 @@ class TestFileStorage(unittest.TestCase):
 
     def test_objects_dictionary(self):
         """Test that the __objects dict is empty"""
+        self.assertIsNotNone(storage._FileStorage__objects)
         self.assertIsInstance(storage._FileStorage__objects, dict)
         self.assertEqual(storage._FileStorage__objects, {})
         storage.new(BaseModel())
