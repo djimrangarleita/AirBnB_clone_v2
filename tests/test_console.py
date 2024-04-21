@@ -3,13 +3,6 @@
 import unittest
 import os
 from models import storage
-from models.base_model import BaseModel
-from models.user import User
-from models.state import State
-from models.city import City
-from models.place import Place
-from models.amenity import Amenity
-from models.review import Review
 from console import HBNBCommand
 from io import StringIO
 from unittest.mock import patch
@@ -21,6 +14,7 @@ class TestConsole(unittest.TestCase):
     def setUp(self):
         """Setup common behavior for each test"""
         storage._FileStorage__file_path = 'test_file.json'
+        storage._FileStorage__objects = {}
         self.class_names = ['BaseModel', 'User', 'State', 'City',
                             'Place', 'Amenity', 'Review']
 
