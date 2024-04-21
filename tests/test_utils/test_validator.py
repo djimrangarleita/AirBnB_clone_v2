@@ -5,6 +5,8 @@ from io import StringIO
 from unittest.mock import patch
 from utils import validator
 from models import storage
+from models.base_model import BaseModel
+from models.user import User
 
 
 class TestValidator(unittest.TestCase):
@@ -21,8 +23,11 @@ class TestValidator(unittest.TestCase):
 
     def test_class_name_exist(self):
         """Test if class name exists"""
-        self.assertFalse(validator.class_name_exist('MyClass'))
-        self.assertTrue(validator.class_name_exist('User'))
+        with patch('sys.stdout', new=StringIO()) as fake_out:
+            self.assertFalse(validator.class_name_exist('MyClass'))
+            self.assertEqual(fake_out.getvalue(),
+                             '** class doesn\'t exist **\n')
+            self.assertTrue(validator.class_name_exist('User'))
 
     def test_instance_exist(self):
         """Test if given class instance exists"""
@@ -33,9 +38,16 @@ class TestValidator(unittest.TestCase):
     def test_instance_arg_exist(self):
         """Test that function is called with an instance arg"""
         user = User()
-        self.assertTrue(validator.instance_arg_exist(user.id))
-        self.assertFalse(validator.instance_arg_exist(None))
-        self.assertFalse(validator.instance_arg_exist(''))
+        with patch('sys.stdout', new=StringIO()) as fake_out:
+            self.assertTrue(validator.instance_arg_exist(user.id))
+            self.assertFalse(validator.instance_arg_exist(None))
+            self.assertEqual(fake_out.getvalue(),
+                             "** instance id missing **\n")
+            fake_out.truncate(0)
+            fake_out.seek(0)
+            self.assertFalse(validator.instance_arg_exist(''))
+            self.assertEqual(fake_out.getvalue(),
+                             "** instance id missing **\n")
 
     def test_class_name_and_instance_exist(self):
         """Test that function is called with class name and instance id"""

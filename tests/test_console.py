@@ -20,8 +20,9 @@ class TestConsole(unittest.TestCase):
 
     def tearDown(self):
         """Remove changes applied by setup"""
+        storage._FileStorage__file_path = 'file.json'
         try:
-            os.remove(storage._FileStorage__file_path)
+            os.remove('test_file.json')
         except Exception:
             pass
 
