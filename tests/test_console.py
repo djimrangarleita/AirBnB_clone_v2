@@ -47,10 +47,15 @@ class TestConsole(unittest.TestCase):
 
     def test_help(self):
         """Test the execute cmd"""
+        h_header = "\nDocumented commands (type help <topic>):\n"
+        h_separator = "========================================\n"
+        h_list = "EOF  all  count  create  destroy  exit  help  \
+quit  show  update\n\n"
         with patch('sys.stdout', new=StringIO()) as out:
             HBNBCommand().onecmd("help")
-            self.assertIsNotNone(out.getvalue())
+            self.assertNotEqual(out.getvalue(), '')
             self.assertIsInstance(out.getvalue(), str)
+            self.assertEqual(out.getvalue(), h_header + h_separator + h_list)
 
     def test_empty_line(self):
         """Test the empty line cmd"""
@@ -132,6 +137,15 @@ class TestConsole(unittest.TestCase):
                 HBNBCommand().onecmd(f"create {name}")
                 self.assertNotEqual(out.getvalue(), '')
                 instance_id = out.getvalue().rstrip('\n')
+                out.truncate(0)
+                out.seek(0)
+                # Check for classes
+                HBNBCommand().onecmd(f"all {name}")
+                self.assertIn(f"[\"[{name}] ({instance_id})", out.getvalue())
+                out.truncate(0)
+                out.seek(0)
+                HBNBCommand().onecmd(f"{name}.all()")
+                self.assertIn(f"[\"[{name}] ({instance_id})", out.getvalue())
         output = ''
         with patch('sys.stdout', new=StringIO()) as out:
             # Get output to assert all() without name
@@ -190,8 +204,9 @@ class TestConsole(unittest.TestCase):
                 # Clear output (console)
                 out.truncate(0)
                 out.seek(0)
-                HBNBCommand().onecmd(f"count {name}")
+                HBNBCommand().onecmd(f"{name}.count()")
                 self.assertNotEqual(out.getvalue(), '0\n')
+                self.assertEqual(out.getvalue(), '2\n')
                 # Clear output (console)
                 out.truncate(0)
                 out.seek(0)
