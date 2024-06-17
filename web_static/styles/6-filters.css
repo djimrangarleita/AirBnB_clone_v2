@@ -50,6 +50,7 @@ section.filters button:hover {
     border-radius: 4px;
     padding: 16px 25px;
     display: none;
+    margin-top: 1px;
 }
 
 .filters .popover h2 {
