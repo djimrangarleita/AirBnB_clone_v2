@@ -51,6 +51,8 @@ section.filters button:hover {
     padding: 16px 25px;
     display: none;
     margin-top: 1px;
+    position: relative;
+    z-index: 999;
 }
 
 .filters .popover h2 {
