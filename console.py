@@ -3,7 +3,8 @@
 import cmd
 from utils import exec_cmd
 from utils import validator
-from utils.general import normalize_custom_cmd, extract_args
+from utils.general import (normalize_custom_cmd,
+                           extract_args, make_dict_from_str)
 
 
 class HBNBCommand(cmd.Cmd):
@@ -56,9 +57,14 @@ class HBNBCommand(cmd.Cmd):
         Create a new obj of <class_name>, saves it and print its id.
         Usage: create <class_name>
         """
-        if not validator.class_name_exist(line):
+        splitted_line = line.split()
+        class_name = splitted_line[0]
+        attr_dict = {}
+        if not validator.class_name_exist(class_name):
             return
-        exec_cmd.create(line)
+        if len(splitted_line) > 1:
+            attr_dict = make_dict_from_str(splitted_line[1:])
+        exec_cmd.create(class_name, attr_dict)
 
     def do_show(self, line):
         """

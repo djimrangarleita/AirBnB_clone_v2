@@ -42,3 +42,18 @@ def extract_args(cmd):
     if values == 0:
         values = args[2:]
     return (args, values)
+
+
+def make_dict_from_str(kv_list):
+    """Parse a list of string of type "key"="value" and build a dict from it"""
+    attr_dict = {}
+    for raw_attr in kv_list:
+        try:
+            key, val = raw_attr.split('=')
+            val = val.replace('_', ' ')
+            val = val.replace('\\', '')
+            val = val[1:-1] if '"' in val else eval(val)
+            attr_dict[key.strip('"')] = val
+        except Exception:
+            pass
+    return attr_dict

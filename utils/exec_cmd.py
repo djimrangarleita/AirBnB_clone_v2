@@ -12,10 +12,12 @@ from models.review import Review
 from models import storage
 
 
-def create(class_name):
+def create(class_name, values={}):
     """Create a new instance of BaseModel, save it and print its id"""
     new_instance = globals()[class_name]()
     new_instance.save()
+    if values:
+        update([class_name, new_instance.id], values)
     print(new_instance.id)
 
 
