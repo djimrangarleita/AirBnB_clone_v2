@@ -45,7 +45,7 @@ def extract_args(cmd):
 
 
 def make_dict_from_str(kv_list):
-    """Parse a list of string of type "key"="value" and build a dict from it"""
+    """Parse a list of string of type 'key="value"' and build a dict from it"""
     attr_dict = {}
     for raw_attr in kv_list:
         try:

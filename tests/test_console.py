@@ -66,6 +66,73 @@ quit  show  update\n\n"
                 self.assertIsNotNone(out.getvalue())
                 self.assertIsInstance(out.getvalue(), str)
 
+    def test_create_with_kv_str_args(self):
+        """Test that create new object with string kv pair works"""
+        with patch('sys.stdout', new=StringIO()) as out:
+            # Test create state
+            HBNBCommand().onecmd('create State name="Kode"')
+            obj_id = out.getvalue().rstrip('\n')
+            self.assertIsNotNone(obj_id)
+            state = storage._FileStorage__objects.get(f'State.{obj_id}')
+            self.assertEqual(state.name, 'Kode')
+            out.truncate(0)
+            out.seek(0)
+            # Test create User
+            udata = 'email="d@m.co" password="passw" first_name="Djimra"\
+                    last_name="NGARLEITA"'
+            HBNBCommand().onecmd(f'create User {udata}')
+            u_id = out.getvalue().rstrip('\n')
+            self.assertIsNotNone(u_id)
+            user = storage._FileStorage__objects.get(f'User.{u_id}')
+            self.assertEqual(user.first_name, 'Djimra')
+            self.assertEqual(user.last_name, 'NGARLEITA')
+            self.assertEqual(user.password, 'passw')
+            self.assertEqual(user.email, 'd@m.co')
+            out.truncate(0)
+            out.seek(0)
+            # Test create City
+            cdata = 'name="Mane" state_id="S10"'
+            HBNBCommand().onecmd(f'create City {cdata}')
+            c_id = out.getvalue().rstrip('\n')
+            self.assertIsNotNone(c_id)
+            city = storage._FileStorage__objects.get(f'City.{c_id}')
+            self.assertEqual(city.name, 'Mane')
+            self.assertEqual(city.state_id, 'S10')
+            out.truncate(0)
+            out.seek(0)
+            # Test create Amenity
+            HBNBCommand().onecmd('create Amenity name="Private_Airport"')
+            obj_id = out.getvalue().rstrip('\n')
+            self.assertIsNotNone(obj_id)
+            amenity = storage._FileStorage__objects.get(f'Amenity.{obj_id}')
+            self.assertEqual(amenity.name, 'Private Airport')
+            out.truncate(0)
+            out.seek(0)
+            # Test create Review
+            HBNBCommand().onecmd('create Review place_id="P10" user_id="U10"\
+                    text="Cool_place"')
+            obj_id = out.getvalue().rstrip('\n')
+            self.assertIsNotNone(obj_id)
+            review = storage._FileStorage__objects.get(f'Review.{obj_id}')
+            self.assertEqual(review.place_id, 'P10')
+            self.assertEqual(review.user_id, 'U10')
+            self.assertEqual(review.text, 'Cool place')
+            out.truncate(0)
+            out.seek(0)
+            # Test create Place
+            place_d = 'city_id="C10" user_id="U10" name="DMTower" number_rooms=7\
+                    description="My_house" number_bathrooms=8 max_guest=10\
+                    price_by_night=1000 latitude=0.12 longitude=12.7'
+            HBNBCommand().onecmd(f'create Place {place_d}')
+            obj_id = out.getvalue().rstrip('\n')
+            self.assertIsNotNone(obj_id)
+            place = storage._FileStorage__objects.get(f'Place.{obj_id}')
+            self.assertEqual(place.city_id, 'C10')
+            self.assertEqual(place.user_id, 'U10')
+            self.assertEqual(place.description, 'My house')
+            out.truncate(0)
+            out.seek(0)
+
     def test_show(self):
         """Test show cmd"""
         for name in self.class_names:

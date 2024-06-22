@@ -1,5 +1,6 @@
 *.swp
 file.json
+file.csv
 playground
 __pycache__
 W3C-Validator
