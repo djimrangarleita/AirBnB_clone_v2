@@ -120,8 +120,9 @@ quit  show  update\n\n"
             out.truncate(0)
             out.seek(0)
             # Test create Place
-            place_d = 'city_id="C10" user_id="U10" name="DMTower" number_rooms=7\
-                    description="My_house" number_bathrooms=8 max_guest=10\
+            place_d = 'city_id="C10" user_id="U10" name="DMTower"\
+                    number_rooms=7 description="My_house"\
+                    number_bathrooms=8 max_guest=10\
                     price_by_night=1000 latitude=0.12 longitude=12.7'
             HBNBCommand().onecmd(f'create Place {place_d}')
             obj_id = out.getvalue().rstrip('\n')

@@ -12,9 +12,15 @@ class FileStorage:
     __file_path = 'file.json'
     __objects = {}
 
-    def all(self):
+    def all(self, cls=None):
         """Return all objects"""
-        return self.__objects
+        result = {}
+        if cls is None:
+            return self.__objects
+        for key, obj in self.__objects.items():
+            if isinstance(obj, cls):
+                result[key] = obj
+        return result
 
     def new(self, obj):
         """Add a new object to the dictionary __objects"""
@@ -63,3 +69,9 @@ class FileStorage:
         module_name = pascal_to_snake(class_name)
         my_class = importlib.import_module('models.{}'.format(module_name))
         return my_class
+
+    def delete(self, obj=None):
+        """Delete obj from __objects if available"""
+        if obj is None:
+            return
+        self.__objects.pop('{}.{}'.format(type(obj).__name__, obj.id), None)

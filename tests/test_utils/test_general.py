@@ -21,11 +21,12 @@ class TestGeneral(unittest.TestCase):
 
     def test_make_dict_from_str(self):
         """Test that a key val string pair will be normalized to a dict"""
-        self.assertEqual(general.make_dict_from_str(['name="Djimra_NGARLEITA"']),
-                         {'name': 'Djimra NGARLEITA'})
-        self.assertEqual(general.make_dict_from_str(['age=1000']), {'age': 1000})
+        self.assertEqual(general.make_dict_from_str(['name="Djimra_NG"']),
+                         {'name': 'Djimra NG'})
+        self.assertEqual(general.make_dict_from_str(['age=10']), {'age': 10})
         self.assertEqual(general.make_dict_from_str(['height=182.50']),
                          {'height': 182.50})
         input_data = ['name="Djimra"', 'age=1000', 'height=182.50']
         expected_output = {'name': 'Djimra', 'age': 1000, 'height': 182.50}
-        self.assertEqual(general.make_dict_from_str(input_data), expected_output)
+        self.assertEqual(general.make_dict_from_str(input_data),
+                         expected_output)
